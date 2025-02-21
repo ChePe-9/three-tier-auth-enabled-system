@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        form {
+            margin-bottom: 20px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .hidden {
+            display: none;
+        }
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <!-- Форма авторизации -->
+    <h1>Authorization</h1>
+    <form id="loginForm">
+        <input type="text" id="loginUsername" placeholder="Username" required />
+        <input type="password" id="loginPassword" placeholder="Password" required />
+        <button type="submit">Login</button>
+        <span class="error" id="loginError"></span>
+        <a href="#" id="registerLink">Don't have an account? Register here</a>
+    </form>
+
+    <!-- Форма регистрации -->
+    <form id="registerForm" class="hidden">
+        <h2>Register</h2>
+        <input type="text" id="registerUsername" placeholder="Username" required />
+        <input type="password" id="registerPassword" placeholder="Password" required />
+        <button type="submit">Register</button>
+        <span class="error" id="registerError"></span>
+        <a href="#" id="backToLogin">Back to Login</a>
+    </form>
+
+    <!-- Панель после успешной авторизации -->
+    <div id="authPanel" class="hidden">
+        <h1>Welcome!</h1>
+
+        <!-- Создание категории -->
+        <h2>Create Category</h2>
+        <form id="createCategoryForm">
+            <input type="text" id="categoryName" placeholder="Category Name" required />
+            <button type="submit">Create Category</button>
+            <span class="error" id="categoryError"></span>
+        </form>
+
+        <!-- Создание товара -->
+        <h2>Create Product</h2>
+        <form id="createProductForm">
+            <input type="text" id="productName" placeholder="Product Name" required />
+            <input type="number" id="productPrice" placeholder="Price" required />
+            <select id="productCategory" required>
+                <option value="">Select Category</option>
+            </select>
+            <button type="submit">Create Product</button>
+            <span class="error" id="productError"></span>
+        </form>
+
+        <!-- Создание заказа -->
+        <h2>Create Order</h2>
+        <form id="createOrderForm">
+            <select id="orderUser" required>
+                <option value="">Select User</option>
+            </select>
+            <button type="submit">Create Order</button>
+            <span class="error" id="orderError"></span>
+        </form>
+
+        <!-- Добавление товара в заказ -->
+        <h2>Add Item to Order</h2>
+        <form id="addItemForm">
+            <select id="itemOrder" required>
+                <option value="">Select Order</option>
+            </select>
+            <select id="itemProduct" required>
+                <option value="">Select Product</option>
+            </select>
+            <input type="number" id="itemQuantity" placeholder="Quantity" required />
+            <button type="submit">Add Item</button>
+            <span class="error" id="itemError"></span>
+        </form>
+
+        <!-- Списки данных -->
+        <h2>Users</h2>
+        <div id="usersList"></div>
+
+        <h2>Categories</h2>
+        <div id="categoriesList"></div>
+
+        <h2>Products</h2>
+        <div id="productsList"></div>
+
+        <h2>Orders</h2>
+        <div id="ordersList"></div>
+    </div>
+
+    <script src="/client/script.js"></script>
+</body>
+</html>
