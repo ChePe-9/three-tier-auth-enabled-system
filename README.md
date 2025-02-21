@@ -70,11 +70,69 @@ project/
    ```plaintext
    DATABASE_URL=postgresql://postgres:your_password@localhost/your_database_name?client_encoding=utf8
    ```
-3. **Запустите сервер:**:
+   ### SQL-запросы для создания базы данных ###
+   Ниже представлены SQL-запросы для создания структуры базы данных проекта. База данных состоит из 5 таблиц: пользователи, категории товаров, товары, заказы и позиции заказа.
+   
+   2.1. **Таблица пользователей (users)**:
+   ```sql
+      -- Таблица пользователей
+      CREATE TABLE users (
+         id SERIAL PRIMARY KEY,
+         username VARCHAR(50) UNIQUE NOT NULL,
+         password_hash VARCHAR(255) NOT NULL
+      );
+   ```
+   2.2. **Таблица категорий товаров (categories)**:
+   ```sql
+      -- Таблица категорий товаров
+      CREATE TABLE categories (
+          id SERIAL PRIMARY KEY,
+          name VARCHAR(50) NOT NULL
+      );
+   ```
+   2.3. **Таблица товаров (products)**:
+   ```sql
+      -- Таблица товаров
+      CREATE TABLE products (
+          id SERIAL PRIMARY KEY,
+          name VARCHAR(100) NOT NULL,
+          price DECIMAL(10, 2) NOT NULL,
+          category_id INTEGER REFERENCES categories(id) ON DELETE CASCADE
+      );
+   ```
+   2.4. **Таблица заказов (orders)**:
+   ```sql
+      -- Таблица заказов
+      CREATE TABLE orders (
+          id SERIAL PRIMARY KEY,
+          user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+          status VARCHAR(20) NOT NULL DEFAULT 'pending'
+      );
+   ```
+   2.5. **Таблица позиций заказа (order_items)**:
+   ```sql
+      -- Таблица позиций заказа
+      CREATE TABLE order_items (
+          id SERIAL PRIMARY KEY,
+          order_id INTEGER REFERENCES orders(id) ON DELETE CASCADE,
+          product_id INTEGER REFERENCES products(id) ON DELETE CASCADE,
+          quantity INTEGER NOT NULL CHECK (quantity > 0)
+      );
+   ```
+   2.6. **Таблица позиций заказа (order_items)**:
+   ```sql
+      -- Создание индексов для оптимизации запросов
+      CREATE INDEX idx_user_username ON users(username);
+      CREATE INDEX idx_product_category ON products(category_id);
+      CREATE INDEX idx_order_user ON orders(user_id);
+      CREATE INDEX idx_order_item_order ON order_items(order_id);
+      CREATE INDEX idx_order_item_product ON order_items(product_id);
+   ```
+4. **Запустите сервер:**:
    ```bash
    uvicorn app.main:app --reload
    ```
-4. **Откройте приложение в браузере**:
+5. **Откройте приложение в браузере**:
    ```plaintext
    http://127.0.0.1:8000/
    ```
